@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>סוכן AI לטיקטוק שלך</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            padding: 20px;
+            color: white;
+            direction: rtl;
+        }
+
+        .box {
+            max-width: 600px;
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        input,
+        textarea,
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #000000aa;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #000000dd;
+        }
+
+        .output {
+            white-space: pre-wrap;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h2>🤖 סוכן AI שמנהל את ערוץ הטיקטוק שלך</h2>
+        <label>שם הערוץ שלך בטיקטוק:</label>
+        <input id="channelName" type="text" placeholder="למשל: zapcode6">
+
+        <label>על מה הסרטון הבא שלך?</label>
+        <textarea id="videoIdea" rows="3" placeholder="למשל: אתגר מגניב, סיפור אישי, טרנד..."></textarea>
+
+        <button onclick="generateResponse()">💡 קבל רעיונות מהסוכן</button>
+
+        <div class="output" id="responseBox">הסוכן מחכה שתמלא פרטים 😉</div>
+    </div>
+
+    <script>
+        function generateResponse() {
+            const name = document.getElementById("channelName").value.trim();
+            const idea = document.getElementById("videoIdea").value.trim();
+
+            if (!name || !idea) {
+                document.getElementById("responseBox").innerText = "🛑 אנא מלא את שם הערוץ ואת נושא הסרטון.";
+                return;
+            }
+
+            const hashtags = idea
+                .split(" ")
+                .map(word => "#" + word.replace(/[^\u0590-\u05FFa-zA-Z0-9]/g, ""))
+                .slice(0, 5)
+                .join(" ");
+
+            const tips = [
+                "📌 תתחיל את הסרטון עם פתיח חזק וכתובית מושכת.",
+                "🎵 השתמש בסאונד טרנדי שמתאים לנושא.",
+                "💬 שאל את הקהל שאלה כדי להגביר מעורבות.",
+                "📲 פרסם בשעה שהקהל שלך הכי פעיל (17:00-20:00 בישראל).",
+                "🎨 תוסיף פילטר או מעבר מגניב באמצע הסרטון."
+            ];
+
+            const randomTips = tips.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+            const response = `
+✨ שלום ${name}! הנה הניתוח של הסוכן שלך:
+
+🎬 נושא הסרטון: ${idea}
+
+🧠 רעיון לסרטון:
+- תתחיל עם משפט חזק כמו: "אתם לא תאמינו מה קרה לי היום..."
+- תשלב קטע קצר שמושך תשומת לב תוך 3 שניות.
+- סיים בטוויסט מפתיע או מסר עוצמתי.
+
+🏷️ האשטגים מוצעים: ${hashtags}
+
+🔧 טיפים לשיפור:
+${randomTips.map(t => "- " + t).join("\n")}
+
+🎯 בהצלחה! אל תשכח לענות לתגובות ולעקוב אחרי הנתונים 😊
+`;
+
+            document.getElementById("responseBox").innerText = response;
+        }
+    </script>
+</body>
+
+</html>
